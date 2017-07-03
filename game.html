@@ -97,15 +97,25 @@
                     var obs = this._obs[i];
 
                     obs.x -= speed;
-
-                    if(obs.x <= -obs._width){
+                   
+                    //collision between bloc and obstacles
+                    if (bloc.x < obs.x +obs,_width && bloc.x + bloc._width >=
+                          obs.x && bloc.y + bloc._height >= ground.y - obs._height){
+                              currentState = states.gameOver;
+                    }
+                    else if(obs.x <= -obs._width){
                         this._obs.splice(i, 1)
                         tam--;
                         i--;
-
                     }
                 }
             },
+            
+            //to clear array
+            clean:function(){
+                this._obs = [];
+            },
+
             draw:function(){
                 for(var i = 0, tam = this._obs.length; i < tam; i++){
                     var obs = this._obs[i];
@@ -116,8 +126,15 @@
         };
         
         function click(event){
-            bloc.jump();
+            if(currentState == states.playing)
+                bloc.jump();
 
+            else if (currentState == states.play){
+                currentState = states.playing;
+            }
+            else if (currentState == states.gameOver){
+                currentState = states.play;
+            }
         }
 
         function main(){
@@ -137,7 +154,7 @@
             document.body.appendChild(canvas);
             document.addEventListener("mousedown", click);
 
-            currentState =states.play;
+            currentState = states.play;
             reload();
         }
 
@@ -151,29 +168,29 @@
         function updates(){
             frames++;
 
-            bloc.updates();
-
-            if (currentState == states.play){
+             bloc.updates();
+            if (currentState == states.playing)
                 obstacles.updates();
-            }
+            
         }
 
         function draw(){
             ctx.fillStyle = "#80daff";
             ctx.fillRect(0,0,_WIDTH, _HEIGHT);
             
-            if(currentState ==states.play){
+            if(currentState == states.play){
                ctx.fillStyle = "green";
                ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
             }
             else if (currentState == states.gameOver){
                 ctx.fillStyle = "read";
-               ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
+                ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
             }
 
-            else if(currentState == states.play)
+            else if(currentState == states.playing)
                     obstacles.draw();
             
+          
             ground.draw();
             bloc.draw();
         }
