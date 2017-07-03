@@ -19,6 +19,14 @@
     <script>
         //variáveis do jogo
         var canvas, ctx, _HEIGHT, _WIDTH, frames = 0, maxJump = 3, speed = 6,
+            currentState,
+
+        states = {
+            play: 0,
+            playing:1,
+            gameOver:2
+
+        },
 
         ground = {
            y:550,
@@ -129,6 +137,7 @@
             document.body.appendChild(canvas);
             document.addEventListener("mousedown", click);
 
+            currentState =states.play;
             reload();
         }
 
@@ -143,15 +152,29 @@
             frames++;
 
             bloc.updates();
-            obstacles.updates();
+
+            if (currentState == states.play){
+                obstacles.updates();
+            }
         }
 
         function draw(){
             ctx.fillStyle = "#80daff";
             ctx.fillRect(0,0,_WIDTH, _HEIGHT);
+            
+            if(currentState ==states.play){
+               ctx.fillStyle = "green";
+               ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
+            }
+            else if (currentState == states.gameOver){
+                ctx.fillStyle = "read";
+               ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
+            }
 
+            else if(currentState == states.play)
+                    obstacles.draw();
+            
             ground.draw();
-            obstacles.draw();
             bloc.draw();
         }
 
