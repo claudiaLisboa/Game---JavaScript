@@ -30,6 +30,7 @@
             speed: 0,
             jumpStrength: 23.6,
             jumpCount: 0,
+            score: 0,
 
             updates:function(){
                 this.speed += this.gravity;
@@ -50,8 +51,9 @@
             },
          
             reset: function(){
-                 bloc.speed = 0;
-                 bloc.y = 0;
+                 this.speed = 0;
+                 this.y = 0;
+                 this.score = 0;
             },
 
             draw:function(){
@@ -90,9 +92,12 @@
                    
                     //collision between bloc and obstacles
                     if (bloc.x < obs.x +obs._width && bloc.x + bloc._width >=
-                          obs.x && bloc.y + bloc._height >= ground.y - obs._height){
+                          obs.x && bloc.y + bloc._height >= ground.y - obs._height)
                               currentState = states.gameOver;
-                    }
+                  
+                    else if (obs.x == 0)
+                    bloc.score ++;
+
                     else if(obs.x <= -obs._width){
                         this._obs.splice(i, 1)
                         tam--;
@@ -168,6 +173,12 @@
         function draw(){
             ctx.fillStyle = "#80daff";
             ctx.fillRect(0,0,_WIDTH, _HEIGHT);
+
+            //draw score player
+            ctx.fillStyle = "#fff";
+            ctx.font = "50px Atarian System"; //Connection Serif
+            ctx.fillText(bloc.score, 30,68);
+           
             
             if(currentState == states.play){
                ctx.fillStyle = "green";
@@ -176,6 +187,21 @@
             else if (currentState == states.gameOver){
                 ctx.fillStyle = "red";
                 ctx.fillRect(_WIDTH / 2 - 50, _HEIGHT / 2 - 50, 100,100);
+
+                //when game over save score and write score in bloc red 
+                ctx.save();
+                ctx.translate(_WIDTH / 2 , _HEIGHT / 2);
+                ctx.fillStyle = "#fff";
+
+                if (bloc.score <10)
+                    ctx.fillText(bloc.score, -13,19);
+
+                else if(bloc.score >=10 && bloc.score < 100)
+                     ctx.fillText(bloc.score, -26, 19);
+                else
+                    ctx.fillText(bloc.score, -39, 19);    
+
+                ctx.restore();
             }
 
             else if(currentState == states.playing)
