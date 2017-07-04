@@ -1,4 +1,4 @@
-//variáveis do jogo
+//Game variables
         var canvas, ctx, _HEIGHT, _WIDTH, frames = 0, maxJump = 3, speed = 6,
             currentState,
 
@@ -48,6 +48,12 @@
                     this.jumpCount++;
                  }
             },
+         
+            reset: function(){
+                 bloc.speed = 0;
+                 bloc.y = 0;
+            },
+
             draw:function(){
                 ctx.fillStyle = this._color;
                 ctx.fillRect (this.x, this.y,this._width,this._height);
@@ -62,7 +68,8 @@
             insert :function(){
                 this._obs.push({
                     x: _WIDTH,
-                    _width: 30 + Math.floor(21 * Math.random()),
+                    //_width: 30 + Math.floor(21 * Math.random()),
+                    _width : 50,
                     _height: 30 + Math.floor(120 * Math.random()),
                     _color: this.colors[Math.floor(5 * Math.random())]
                 });
@@ -117,8 +124,8 @@
             }
             else if (currentState == states.gameOver){
                 currentState = states.play;
-                bloc.speed = 0;
-                bloc.y =0;
+                obstacles.clean();
+                bloc.reset();
             }
         }
 
@@ -156,10 +163,6 @@
              bloc.updates();
             if (currentState == states.playing)
                 obstacles.updates();
-            
-            else if (currentState == states.gameOver)
-            obstacles.clean();
-            
         }
 
         function draw(){
@@ -168,11 +171,11 @@
             
             if(currentState == states.play){
                ctx.fillStyle = "green";
-               ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
+               ctx.fillRect(_WIDTH / 2 - 50, _HEIGHT / 2 - 50, 100,100);
             }
             else if (currentState == states.gameOver){
-                ctx.fillStyle = "read";
-                ctx.fillRect(_HEIGHT / 2 - 50, _WIDTH / 2 - 50, 100,100);
+                ctx.fillStyle = "red";
+                ctx.fillRect(_WIDTH / 2 - 50, _HEIGHT / 2 - 50, 100,100);
             }
 
             else if(currentState == states.playing)
