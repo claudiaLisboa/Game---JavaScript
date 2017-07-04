@@ -1,6 +1,6 @@
 //Game variables
         var canvas, ctx, _HEIGHT, _WIDTH, frames = 0, maxJump = 3, speed = 6,
-            currentState,
+            currentState, record,
 
         states = {
             play: 0,
@@ -53,6 +53,13 @@
             reset: function(){
                  this.speed = 0;
                  this.y = 0;
+
+                 //stock in localStorage the record registre 
+                 if(this.score >record){
+                     localStorage.setItem("record", this.score);
+                     record = this.score;
+                 }
+                 
                  this.score = 0;
             },
 
@@ -149,9 +156,17 @@
             
             ctx = canvas.getContext("2d");
             document.body.appendChild(canvas);
+
             document.addEventListener("mousedown", click);
 
             currentState = states.play;
+            //command get the value in "record" and assign the variable record
+            //if value don't exist it assign null to the variable record 
+            record = localStorage.getItem("record");
+            
+            if (record == null)
+                rcord = 0;
+
             reload();
         }
 
@@ -193,6 +208,18 @@
                 ctx.translate(_WIDTH / 2 , _HEIGHT / 2);
                 ctx.fillStyle = "#fff";
 
+                if(bloc.score > record)
+                    ctx.fillText("New Record!", -150, -65)
+
+                else if(record <10)
+                    ctx.fillText("Record " + record, -99, -66);
+
+                else if (record >= 10 && record < 100)   
+                     ctx.fillText("Record " + record, -112, -65);
+
+                else 
+                    ctx.fillText("Record " + record, -125, -65); 
+
                 if (bloc.score <10)
                     ctx.fillText(bloc.score, -13,19);
 
@@ -212,5 +239,5 @@
             bloc.draw();
         }
 
-        //inicializa o jogo 
+        //start game
         main();
