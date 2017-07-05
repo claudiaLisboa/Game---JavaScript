@@ -1,6 +1,6 @@
 //Game variables
         var canvas, ctx, _HEIGHT, _WIDTH, frames = 0, maxJump = 3, speed = 6,
-            currentState, record,
+            currentState, record, img,
 
         states = {
             play: 0,
@@ -23,8 +23,8 @@
         bloc = {
             x:50,
             y:0,
-            _height:50,
-            _width:50,
+            _height:spriteDoll._height,
+            _width:spriteDoll._width,
             _color:"#ff4e4e",
             gravity: 1.6,
             speed: 0,
@@ -64,8 +64,12 @@
             },
 
             draw:function(){
-                ctx.fillStyle = this._color;
-                ctx.fillRect (this.x, this.y,this._width,this._height);
+                //draw bloc
+                /*ctx.fillStyle = this._color;
+                ctx.fillRect (this.x, this.y,this._width,this._height);*/
+
+                //draw  spriteDoll
+                spriteDoll.draw(this.x, this.y);
             }
         };
 
@@ -167,6 +171,9 @@
             if (record == null)
                 rcord = 0;
 
+            img = new Image();
+            img.src = "Images/sheet.png";
+
             reload();
         }
 
@@ -186,8 +193,10 @@
         }
 
         function draw(){
-            ctx.fillStyle = "#80daff";
-            ctx.fillRect(0,0,_WIDTH, _HEIGHT);
+           // ctx.fillStyle = "#80daff";
+           // ctx.fillRect(0,0,_WIDTH, _HEIGHT);
+           brackgroundSprite.draw(0, 0);
+          
 
             //draw score player
             ctx.fillStyle = "#fff";
