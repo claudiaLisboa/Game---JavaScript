@@ -199,7 +199,7 @@
           
 
             //draw score player
-            ctx.fillStyle = "#fff";
+            ctx.fillStyle = "#3357d8";
             ctx.font = "50px Atarian System"; //Connection Serif
             ctx.fillText(bloc.score, 30,68);
            
@@ -215,7 +215,7 @@
                 //when game over save score and write score in bloc red 
                 ctx.save();
                 ctx.translate(_WIDTH / 2 , _HEIGHT / 2);
-                ctx.fillStyle = "#fff";
+                ctx.fillStyle = "#3357d8";
 
                 if(bloc.score > record)
                     ctx.fillText("New Record!", -150, -65)
